@@ -22,8 +22,13 @@ namespace WebApplication1.Controllers
             return Ok(employee);
         }
         [HttpPost]
-        public IActionResult Post(employeeToAddDto employeeToAdd)
+        public IActionResult Post(EmployeeToAddDto employeeToAdd)
         {   //map dto to entity
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(modelState: ModelState);
+            }
+
             var employee = new Employees
             {
                 Name = employeeToAdd.Name,
@@ -34,8 +39,14 @@ namespace WebApplication1.Controllers
             _context.Employees.Add(employee);
             _context.SaveChanges();
             return Ok();
-
-
         }
+
+        //get by id
+
+        //update
+
+        //delete
+
+
     }
 }
