@@ -43,7 +43,7 @@ namespace WebApplication1.Controllers
 
         //get by id
         [HttpGet]
-        [Route("id")]
+        [Route("{id}")]
         public IActionResult Get([FromRoute] long id)
         {
             var employee = _context.Employees.Find(id);
@@ -54,7 +54,7 @@ namespace WebApplication1.Controllers
 
         //update
         [HttpPut]
-        [Route("id")]
+        [Route("{id}")]
         public IActionResult Put([FromRoute] long id, EmployeeToAddDto employeeToUpdate)
         { var employee = _context.Employees.Find(id);
             if (employee == null) { NotFound(); }
@@ -68,7 +68,7 @@ namespace WebApplication1.Controllers
             return Ok(employee);
         }
         [HttpDelete]
-        [Route("id")]   
+        [Route("{id}")]   
         public IActionResult Delete(long id) 
         { var employeeToDelete= _context.Employees.Find(id);
             if (employeeToDelete == null) { NotFound();}

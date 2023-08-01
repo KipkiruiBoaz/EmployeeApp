@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 builder.Services.AddDbContext<EmployeeDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("EmployeeConnectionString")));
 
@@ -20,6 +21,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(c =>
+c.WithOrigins("http://localhost:4200")
+.AllowAnyHeader()
+.AllowAnyMethod()
+);
 
 app.UseHttpsRedirection();
 
