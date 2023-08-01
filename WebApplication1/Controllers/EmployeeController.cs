@@ -6,7 +6,7 @@ using WebApplication1.Models;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     public class EmployeeController : Controller
     {
         private readonly EmployeeDbContext _context;
@@ -18,7 +18,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var employee=_context.Employees.ToList();
+            var employee = _context.Employees.ToList();
             return Ok(employee);
         }
         [HttpPost]
@@ -42,11 +42,44 @@ namespace WebApplication1.Controllers
         }
 
         //get by id
+        [HttpGet]
+        [Route("id")]
+        public IActionResult Get([FromRoute] long id)
+        {
+            var employee = _context.Employees.Find(id);
+            if (employee == null) { NotFound(); }
+            return Ok(employee);
+
+        }
 
         //update
+        [HttpPut]
+        [Route("id")]
+        public IActionResult Put([FromRoute] long id, EmployeeToAddDto employeeToUpdate)
+        { var employee = _context.Employees.Find(id);
+            if (employee == null) { NotFound(); }
+            employee.Name = employeeToUpdate.Name;
+            employee.Phone = employeeToUpdate.Phone;
+            employee.Department = employeeToUpdate.Department;
+            employee.Salary = employeeToUpdate.Salary;
 
-        //delete
-
+            _context.Employees.Update(employee);
+            _context.SaveChanges();
+            return Ok(employee);
+        }
+        [HttpDelete]
+        [Route("id")]   
+        public IActionResult Delete(long id) 
+        { var employeeToDelete= _context.Employees.Find(id);
+            if (employeeToDelete == null) { NotFound();}
+            _context.Employees.Remove(employeeToDelete);
+            _context.SaveChanges();
+            return Ok();    
+        }
 
     }
-}
+  }   
+
+
+    
+
